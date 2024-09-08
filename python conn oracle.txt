@@ -1,0 +1,81 @@
+############Install Python3 
+yum install epel-release
+yum install python3
+
+############Install oracle instant client. 
+mkdir -p /root/instantclient_12_2/network/admin
+cat > /root/instantclient_12_2/network/admin/tnsnames.ora << EOF
+ORCL =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.29.163)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVICE_NAME = ORCLPDB)
+    )
+  )
+EOF
+
+cat >> /etc/profile << EOF
+
+export ORACLEHOME=/root/instantclient_12_2
+export LDLIBRARYPATH=$ORACLEHOME:$LDLIBRARY_PATH
+export TNSADMIN=$ORACLEHOME/network/admin
+#export NLSLANG=AMERICAN_AMERICA.AL32UTF8
+export PATH=$ORACLE_HOME:$PATH
+EOF
+
+source /etc/profile
+
+
+cat >> /etc/ld.so.conf << EOF
+/root/instantclient_12_2
+EOF
+
+ldconfig
+
+############ Pip3 Install cx_Oracle  pandas  openpyxl
+pip3 install cx_Oracle  -i https://pypi.tuna.tsinghua.edu.cn/simple/
+pip3 install pandas  -i https://pypi.tuna.tsinghua.edu.cn/simple/
+pip3 install openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+
+############ test connection
+cat > testconndb.py << EOF
+# -*- coding='utf-8' -*-
+import cx_Oracle
+try:
+    db=cx_Oracle.connect('python','pwd123','192.168.29.163:1521/ORCLPDB')
+    cursor = db.cursor()
+    db.close()
+    print('yeah, you got DB connection')
+except:
+    print('connection failure')
+
+EOF
+
+
+
+########### test extraction
+cat > test_export_excel.py << EOF
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import cx_Oracle
+import pandas as pd
+# connect DB
+conn = cx_Oracle.connect('python/pwd123@192.168.29.163:1521/ORCLPDB')
+# RUN sql command
+sql = "SELECT * FROM v$version"
+cursor = conn.cursor()
+cursor.execute(sql)
+# get result
+results = cursor.fetchall()
+# get columns 
+columns = [desc[0] for desc in cursor.description]
+# convert result to DataFrame
+df = pd.DataFrame(results, columns=columns)
+#write DataFrame to Excel
+df.to_excel("output.xlsx", index=False)
+#close connection 
+cursor.close()
+conn.close()
+
+EOF
