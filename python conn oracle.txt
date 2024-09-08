@@ -2,7 +2,11 @@
 yum install epel-release
 yum install python3
 
+
+######## download
+# https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ############Install oracle instant client. 
+
 mkdir -p /root/instantclient_12_2/network/admin
 cat > /root/instantclient_12_2/network/admin/tnsnames.ora << EOF
 ORCL =
