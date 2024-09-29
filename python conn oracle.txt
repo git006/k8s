@@ -20,7 +20,7 @@ EOF
 
 cat >> /etc/profile << EOF
 
-export ORACLEHOME=/root/instantclient_12_2
+export ORACLEHOME=/opt/instantclient_12_2
 export LDLIBRARYPATH=$ORACLEHOME:$LDLIBRARY_PATH
 export TNSADMIN=$ORACLEHOME/network/admin
 #export NLSLANG=AMERICAN_AMERICA.AL32UTF8
