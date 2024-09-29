@@ -31,7 +31,7 @@ source /etc/profile
 
 
 cat >> /etc/ld.so.conf << EOF
-/root/instantclient_12_2
+/opt/instantclient_12_2
 EOF
 
 ldconfig
