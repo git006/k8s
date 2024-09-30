@@ -7,8 +7,8 @@ yum install python3
 # https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ############Install oracle instant client. 
 
-mkdir -p /root/instantclient_12_2/network/admin
-cat > /root/instantclient_12_2/network/admin/tnsnames.ora << EOF
+mkdir -p /opt/instantclient_12_2/network/admin
+cat > /opt/instantclient_12_2/network/admin/tnsnames.ora << EOF
 ORCL =
   (DESCRIPTION =
     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.29.163)(PORT = 1521))
