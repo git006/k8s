@@ -87,3 +87,62 @@ cursor.close()
 conn.close()
 
 EOF
+
+
+
+
+
+
+
+
+
+
+
+
+#如下是chatgpt 3.5的答案
+
+import cx_Oracle
+import openpyxl
+
+# 连接Oracle数据库
+connection = cx_Oracle.connect('username/password@hostname:port/service_name')
+
+# 创建游标
+cursor = connection.cursor()
+
+# 读取SQL脚本文件
+with open('script.sql', 'r', encoding='utf-8') as file:
+    sql_script = file.read()
+
+# 执行SQL脚本
+try:
+    cursor.execute(sql_script)
+
+    # 获取查询结果
+    results = cursor.fetchall()
+
+    # 创建Excel工作簿和工作表
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+
+    # 在Excel表格中写入列名
+    columns = [i[0] for i in cursor.description]
+    for col_index, col_name in enumerate(columns, 1):
+        sheet.cell(row=1, column=col_index, value=col_name)
+
+    # 在Excel表格中写入查询结果
+    for row_index, row in enumerate(results, 2):
+        for col_index, col_value in enumerate(row, 1):
+            sheet.cell(row=row_index, column=col_index, value=col_value)
+
+    # 保存Excel文件
+    workbook.save('output.xlsx')
+
+except cx_Oracle.DatabaseError as e:
+    print(f"数据库错误: {e}")
+
+finally:
+    # 关闭游标和连接
+    cursor.close()
+    connection.close()
+
