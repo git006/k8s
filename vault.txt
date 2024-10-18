@@ -1,0 +1,18 @@
+启动vault 
+docker run -itd --name testvault -p 8200:8200 -e 'VAULT_DEV_ROOT_TOKEN_ID=dev-only-token' hashicorp/vault:1.8
+查看日志得到
+Unseal Key: JFIL9QwCp4fTXcj9TaABR5csk7Ut+5+X7JkmZrY9ShM=
+Root Token: dev-only-token
+
+
+
+登录vault
+docker exec -it testvault /bin/sh
+
+登录进来了============>
+export VAULT_ADDR='http://127.0.0.1:8200'
+export VAULT_TOKEN="dev-only-token"
+
+可以执行 
+vault status
+vault kv put secret/my-app/password password=123
