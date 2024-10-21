@@ -164,6 +164,19 @@ lease_duration     1h
 lease_renewable    true
 password           XcCWxTi-Vs9NM-uxkh33
 username           v-root-role2-dv19zfatqakhQ8NaPJD
+...
+
+
+
+创建一个新的Oracle数据库角色。
+vault write database/roles/my-role allowed_roles="readonly"
+vault write database/creds/my-role
+vault write database/config/my-oracle-database \
+    plugin_name=oracle-vault-plugin \
+    allowed_roles="my-role" \
+    connection_url="oracle://username:password@//localhost:1521" \
+    username="vault" \
+    password="vault"
 
 
 
