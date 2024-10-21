@@ -40,3 +40,136 @@ secret=dict(password='Hashi123'),
 )
 
 print('Secret written successfully.')
+
+
+
+
+
+==========================10.21==========================
+vault secrets list --details
+vault secrets move
+vault secrets tune
+
+vault secrets enable
+vault secrets enable -path=developers kv-v2 
+vault secrets enable -path=bryan kv-v2
+vault secrets enable -path=bryan kv-v2 -description="my securets" kv
+
+
+vault secrets enable kv
+
+vault secrets disable kv
+
+vault secrets enable -path=hahaha kv
+
+vault secrets enable kv-v2
+
+vault secrets enable -path=training1 kv
+vault secrets enable -path=training2 -version=2 kv
+vault kv enable-versioning training2 
+
+
+
+kv v2 区别 v1 
+cloud/data ---v1 
+cloud/metadata  ---v2 更详细，有多个属性 
+
+
+put --write
+get  --read data
+delete -delete
+list --list 
+
+undelete
+destroy
+
+
+vault kv put kv/app/db pass=123 user=admin api=a8jiuife99
+
+
+
+vault kv put kv/app/db @secrets.json
+
+##json里的内容
+{
+"pass":"123",
+"user":"admin",
+"api":"a8jiuife99"
+}
+
+vault kv put kv/app/db api=b8jiuife99  即实现了版本更新
+
+
+vault kv rollback -version=1 kv/app/db 
+
+
+vault kv get kv/app/db
+
+vault kv get -format=json kv/app/db
+vault kv get -version=3 kv/app/db
+
+
+
+ kv v1类型的
+vault delete  kv v1类型的，销毁了
+vault delete  kv v1类型的，没有销毁，可以回滚
+
+
+vault secrets enable -path=traing kv (这个意思是kv v1 版本)
+vault kv put traing/apps/jenkins apikey=12jijviji
+vault kv get traing/apps/jenkins
+vault kv put traing/apps/jenkins apikey=12jijviji name=12joifeij
+vault kv get -format=json traing/apps/jenkins
+vault kv get -format=json traing/apps/jenkins |jq -r ".data.name"  #配合jq命令
+vault kv delete traing/apps/jenkins
+vault kv get traing/apps/jenkins (发现永久删除了)
+
+ kv v2类型的
+vault kv enable-versioning traing 
+vault secrets enable -path=kvv2 kv-v2
+
+
+===============================
+/ # export VAULT_ADDR='http://127.0.0.1:8200'
+/ # export VAULT_TOKEN="dev-only-token"
+/ # vault secrets enable database
+
+#创建连接
+vault write database/config/nextcloud \
+    plugin_name=mysql-database-plugin \
+    connection_url="{{username}}:{{password}}@tcp(docker-mysql:3306)/nextcloud?charset=utf8mb4&parseTime=True&loc=Local&timeout=10ms" \
+    root_rotation_statements="SET PASSWORD = PASSWORD('{{password}}')" \
+    allowed_roles="role1,role2" \
+    username="nextcloud" \
+    password="nextcloud123"
+#创建静态角色
+vault write database/static-roles/role1 \
+    db_name=nextcloud \
+    username="nextcloud" \
+    rotation_period=86400
+#创建动态角色
+vault write database/roles/role2 \
+   db_name=nextcloud \
+   creation_statements="CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT SELECT ON *.* TO '{{name}}'@'%';" \
+   revocation_statements="DROP USER '{{name}}'@'%';" \
+   default_ttl="1h" \
+   max_ttl="24h"
+
+动态角色查看密码（每次都会生成一对新的）
+/ # vault read database/creds/role2
+Key                Value
+---                -----
+lease_id           database/creds/role2/eOpeXLZy6aOqUehZgVKBQjsT
+lease_duration     1h
+lease_renewable    true
+password           XcCWxTi-Vs9NM-uxkh33
+username           v-root-role2-dv19zfatqakhQ8NaPJD
+
+
+
+
+
+
+
+
+
