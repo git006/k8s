@@ -1,0 +1,30 @@
+Info
+Outsourcing HSBC UCM project UCMv1 team
+GKE/IKP Kubernetes platform cluster resource management
+Infrastructure support, server, middleware, DB
+ Shell, python, sql Script coding
+ Kubernetes helm chart API conf coding, deploy, resolve issues
+ Vault secrets management
+ Automation tooling: Ansible playbook, Rundeck, Noah job creation, deploy
+ Pipeline G3 Production release
+ SNOW CR Production release, deployment
+ Confluence page creation, knowledge sharing
+ Kanban + Jira sprint 
+
+
+CN co, ltd
+Azure devops team
+Azure devops pipeline coding, creation, build
+Kubernetes Helm chart, Api conf coding, deployment
+Manage Azure cloud resource, infra as code,  Prometheus, Grafana monitor, perf optimze
+
+CSl Limited
+Outsourcing HSBC GSNA project Bigdata team
+Bigdata Hadoop cluster init, patching, upgrade, Monitor; Failure handle and fix, log analysis
+Resource management and performance optimize, Data Backup and Security Management
+GCP components IaC
+
+
+AN Co., Ltd.
+Manage datacenter routers, switches, Linux/Windows server clusters on the VMware vSphere platform, as well as AD, DB, storage, and patching
+Also responsible for monitoring and alerting, log analysis, emergency response, maintenance and optimization
